@@ -1,0 +1,128 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flask Test Runner</title>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+  <!-- Socket.IO -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+
+  <!-- Configure Tailwind -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            border: "hsl(var(--border))",
+            input: "hsl(var(--input))",
+            ring: "hsl(var(--ring))",
+            background: "hsl(var(--background))",
+            foreground: "hsl(var(--foreground))",
+            primary: {
+              DEFAULT: "hsl(var(--primary))",
+              foreground: "hsl(var(--primary-foreground))"
+            },
+            secondary: {
+              DEFAULT: "hsl(var(--secondary))",
+              foreground: "hsl(var(--secondary-foreground))"
+            },
+            destructive: {
+              DEFAULT: "hsl(var(--destructive))",
+              foreground: "hsl(var(--destructive-foreground))"
+            },
+            muted: {
+              DEFAULT: "hsl(var(--muted))",
+              foreground: "hsl(var(--muted-foreground))"
+            },
+            accent: {
+              DEFAULT: "hsl(var(--accent))",
+              foreground: "hsl(var(--accent-foreground))"
+            },
+            popover: {
+              DEFAULT: "hsl(var(--popover))",
+              foreground: "hsl(var(--popover-foreground))"
+            },
+            card: {
+              DEFAULT: "hsl(var(--card))",
+              foreground: "hsl(var(--card-foreground))"
+            },
+            indigo: {
+              600: '#4f46e5',
+              700: '#4338ca',
+            },
+            teal: {
+              600: '#059669',
+              700: '#047857',
+            },
+            amber: {
+              600: '#d97706',
+              700: '#b45309',
+            },
+          },
+          borderRadius: {
+            lg: "var(--radius)",
+            md: "calc(var(--radius) - 2px)",
+            sm: "calc(var(--radius) - 4px)"
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="min-h-full bg-background font-sans antialiased">
+  <!-- Header -->
+  {% include 'components/header.html' %}
+
+  <!-- Main Content -->
+<main class="flex-1 space-y-6 p-4 sm:p-6 overflow-x-hidden">
+  <!-- Statistics Cards -->
+  {% include 'components/stats.html' %}
+
+  <!-- Two Column Layout - Stack on mobile -->
+  <div class="grid gap-6 lg:grid-cols-2">
+    <!-- Available Tests -->
+    <div class="space-y-4 min-w-0">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold leading-none tracking-tight">Available Tests</h2>
+        <span class="text-sm text-muted-foreground hidden sm:block">
+          Click individual tests or use group/file runners
+        </span>
+      </div>
+      <div id="tests-container" class="space-y-4">
+        <!-- Test cards will be populated here -->
+      </div>
+    </div>
+
+    <!-- Test Results -->
+    <div class="space-y-4 min-w-0">
+      {% include 'components/test_results.html' %}
+    </div>
+  </div>
+</main>
+
+  <!-- Modal -->
+  {% include 'components/modal.html' %}
+
+  <!-- JavaScript -->
+  <script src="{{ url_for('static', filename='js/toast.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/filter.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/api.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/socket.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/ui.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+# docker-compose.yml
+networks:
+  unit_test_network:
+
+services:
+  redis:
+    image: redis:7-alpine
+    networks:
+      - unit_test_network
+
+  uts_flask:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: uts_flask
+    env_file:
+      - .env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - redis
+    networks:
+      - unit_test_network
+    volumes:
+      - ${PWD}/tests:/app/tests
+    command: ["python", "-u", "-m", "unit_test_server.app"]
+
+  uts_celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: uts_celery
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    networks:
+      - unit_test_network
+    volumes:
+      - ${PWD}/tests:/app/tests
+    command: ["celery", "-A", "unit_test_server.celery_worker.celery_app", "worker", "--loglevel=info"]

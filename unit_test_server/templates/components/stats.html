@@ -1,0 +1,81 @@
+<!-- templates/components/stats.html -->
+<div class="grid gap-4 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+    <div class="p-4 sm:p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+      <h3 class="tracking-tight text-sm font-medium">Total Tests</h3>
+      <svg class="h-4 w-4 text-muted-foreground flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    </div>
+    <div class="p-4 sm:p-6 pt-0">
+      <div class="text-2xl font-bold" id="total-tests">0</div>
+      <p class="text-xs text-muted-foreground">
+        Total test functions discovered
+      </p>
+    </div>
+  </div>
+
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+    <div class="p-4 sm:p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+      <h3 class="tracking-tight text-sm font-medium">Passed</h3>
+      <svg class="h-4 w-4 text-muted-foreground flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+    <div class="p-4 sm:p-6 pt-0">
+      <div class="text-2xl font-bold text-green-600" id="passed-tests">0</div>
+      <p class="text-xs text-muted-foreground">
+        Tests completed successfully
+      </p>
+    </div>
+  </div>
+
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+    <div class="p-4 sm:p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+      <h3 class="tracking-tight text-sm font-medium">Failed</h3>
+      <svg class="h-4 w-4 text-muted-foreground flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </div>
+    <div class="p-4 sm:p-6 pt-0">
+      <div class="text-2xl font-bold text-red-600" id="failed-tests">0</div>
+      <p class="text-xs text-muted-foreground">
+        Tests with errors or failures
+      </p>
+    </div>
+  </div>
+
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+    <div class="p-4 sm:p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+      <h3 class="tracking-tight text-sm font-medium">Running</h3>
+      <svg class="h-4 w-4 text-muted-foreground flex-shrink-0 animate-spin" fill="none" stroke="currentColor"
+        viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+      </svg>
+    </div>
+    <div class="p-4 sm:p-6 pt-0">
+      <div class="text-2xl font-bold text-yellow-600" id="running-tests">0</div>
+      <p class="text-xs text-muted-foreground">
+        Tests currently executing
+      </p>
+    </div>
+  </div>
+
+  <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+    <div class="p-4 sm:p-6 flex flex-row items-center justify-between space-y-0 pb-2">
+      <h3 class="tracking-tight text-sm font-medium">Missing</h3>
+      <svg class="h-4 w-4 text-muted-foreground flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.314 15.5c-.77.833.192 2.5 1.732 2.5z" />
+      </svg>
+    </div>
+    <div class="p-4 sm:p-6 pt-0">
+      <div class="text-2xl font-bold text-gray-600" id="missing-tests">0</div>
+      <p class="text-xs text-muted-foreground">
+        Test files not found
+      </p>
+    </div>
+  </div>
+</div>

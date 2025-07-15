@@ -1,0 +1,44 @@
+<!-- templates/components/test_results.html -->
+<div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+  <div class="flex flex-col space-y-1.5 p-6">
+    <h3 class="text-2xl font-semibold leading-none tracking-tight">Test Results</h3>
+    <p class="text-sm text-muted-foreground">
+      Real-time test execution results and status updates
+    </p>
+  </div>
+  <div class="p-6 pt-0">
+    <!-- Desktop Table View -->
+    <div class="hidden md:block relative w-full overflow-auto">
+      <table class="w-full caption-bottom text-sm">
+        <thead class="[&_tr]:border-b">
+          <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+              Test Function
+            </th>
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+              Status
+            </th>
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+              Duration
+            </th>
+            <th
+              class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody id="results-table" class="[&_tr:last-child]:border-0">
+          <!-- Results will be added here -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile Card View -->
+    <div class="md:hidden space-y-3" id="results-mobile">
+      <!-- Mobile results will be added here -->
+    </div>
+  </div>
+</div>
