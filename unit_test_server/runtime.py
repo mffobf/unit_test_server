@@ -1,4 +1,5 @@
 # unit_test_server/runtime.py
+from datetime import datetime, timedelta
 import json
 import time
 from typing import Optional, Dict, Any, List
@@ -98,6 +99,15 @@ def get_all_test_results() -> List[Dict[str, Any]]:
             return results
     except Exception:
         return []
+    
+
+def get_recent_test_results(hours: int = 24) -> List[Dict[str, Any]]:
+    """Return results whose completed_at timestamp is within <hours>."""
+    cutoff = datetime.now() - timedelta(hours=hours)
+    return [
+        r for r in get_all_test_results()
+        if datetime.fromtimestamp(r.get("completed_at", 0)) > cutoff
+    ]
 
 
 def get_test_result(test_id: str) -> Optional[Dict[str, Any]]:

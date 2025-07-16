@@ -1,4 +1,4 @@
-# unit_test_server/test_runner.py
+# unit_test_server/enhanced_test_runner.py
 import subprocess
 import os
 import sys
@@ -8,6 +8,7 @@ import shutil
 import psutil
 from contextlib import contextmanager
 from unit_test_server.config import TESTS_PATH
+from unit_test_server.memory_tracker import MemoryMonitor
 
 
 @contextmanager
@@ -29,7 +30,7 @@ def test_environment():
 
 def run_single_test(test_group, test_file, test_function):
     """
-    Enhanced test runner with resource monitoring and isolation
+    Enhanced test runner with comprehensive memory monitoring
     """
     abs_test_path = os.path.join(TESTS_PATH, test_group, test_file)
     if not os.path.isfile(abs_test_path):
@@ -45,19 +46,20 @@ def run_single_test(test_group, test_file, test_function):
     project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     with test_environment() as temp_dir:
-        # Monitor resource usage
-        process = psutil.Process()
-        start_memory = process.memory_info().rss
+        # Initialize memory monitor
+        memory_monitor = MemoryMonitor(interval=0.05)  # Sample every 50ms
+        memory_monitor.start()
+        
         start_time = time.perf_counter()
 
         try:
-            # Enhanced pytest command with more options
+            # Enhanced pytest command
             cmd = [
                 sys.executable, '-m', 'pytest', test_identifier,
                 '-v', '--tb=short', '--no-header', '--durations=0',
                 '--strict-markers', '--strict-config',
                 f'--basetemp={temp_dir}',
-                '--disable-warnings'  # Optional: reduce noise
+                '--disable-warnings'
             ]
 
             proc = subprocess.run(
@@ -70,16 +72,24 @@ def run_single_test(test_group, test_file, test_function):
             )
 
             end_time = time.perf_counter()
-            end_memory = process.memory_info().rss
+            
+            # Stop memory monitoring and get comprehensive stats
+            memory_stats = memory_monitor.stop()
 
             # Extract pytest duration
             pytest_duration = _extract_pytest_duration(proc.stdout)
             execution_duration = round(end_time - start_time, 3)
 
+            # Enhanced resource usage with detailed memory tracking
             resource_usage = {
-                'memory_delta': end_memory - start_memory,
-                'peak_memory': end_memory,
-                'execution_time': execution_duration
+                'execution_time': execution_duration,
+                'memory_stats': memory_stats,
+                # Legacy compatibility
+                'memory_delta': memory_stats.get('rss_stats', {}).get('delta', 0),
+                'peak_memory': memory_stats.get('rss_stats', {}).get('peak', 0),
+                # Additional metrics
+                'memory_efficiency': _calculate_memory_efficiency(memory_stats),
+                'memory_stability': _calculate_memory_stability(memory_stats)
             }
 
             status = 'passed' if proc.returncode == 0 else 'failed'
@@ -95,21 +105,31 @@ def run_single_test(test_group, test_file, test_function):
 
         except subprocess.TimeoutExpired:
             execution_duration = round(time.perf_counter() - start_time, 3)
+            memory_stats = memory_monitor.stop()
+            
             return {
                 'result': 'timeout',
                 'output': '',
                 'error': 'Test execution timed out after 30 seconds',
                 'duration': execution_duration,
-                'resource_usage': {'execution_time': execution_duration}
+                'resource_usage': {
+                    'execution_time': execution_duration,
+                    'memory_stats': memory_stats
+                }
             }
         except Exception as e:
             execution_duration = round(time.perf_counter() - start_time, 3)
+            memory_stats = memory_monitor.stop()
+            
             return {
                 'result': 'error',
                 'output': '',
                 'error': str(e),
                 'duration': execution_duration,
-                'resource_usage': {'execution_time': execution_duration}
+                'resource_usage': {
+                    'execution_time': execution_duration,
+                    'memory_stats': memory_stats
+                }
             }
 
 
@@ -126,3 +146,41 @@ def _extract_pytest_duration(output):
     except (ValueError, IndexError):
         pass
     return None
+
+
+def _calculate_memory_efficiency(memory_stats):
+    """Calculate memory efficiency score (0-100)"""
+    if not memory_stats or 'rss_stats' not in memory_stats:
+        return 0
+    
+    rss_stats = memory_stats['rss_stats']
+    if rss_stats.get('peak', 0) == 0:
+        return 0
+    
+    # Efficiency based on peak vs average usage
+    peak = rss_stats.get('peak', 0)
+    average = rss_stats.get('average', 0)
+    
+    if peak == 0:
+        return 0
+    
+    efficiency = (average / peak) * 100
+    return round(efficiency, 2)
+
+
+def _calculate_memory_stability(memory_stats):
+    """Calculate memory stability score (0-100)"""
+    if not memory_stats or 'rss_stats' not in memory_stats:
+        return 0
+    
+    rss_stats = memory_stats['rss_stats']
+    peak = rss_stats.get('peak', 0)
+    min_mem = rss_stats.get('min', 0)
+    
+    if peak == 0:
+        return 100
+    
+    # Stability based on variance (lower variance = higher stability)
+    variance = peak - min_mem
+    stability = max(0, 100 - (variance / peak * 100))
+    return round(stability, 2)

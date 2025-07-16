@@ -335,3 +335,16 @@ body {
   background-color: #e5e7eb;
   color: #374151;
 }
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+.tab-button.active {
+  background: rgb(243 244 246);
+  color: rgb(17 24 39);
+}

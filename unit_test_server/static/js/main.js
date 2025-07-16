@@ -9,22 +9,24 @@ document.addEventListener('DOMContentLoaded', function () {
 	loadTestResults();
 
 	// Setup modal event handlers
-	const modal = document.getElementById('test-modal');
-	if (modal) {
-		// Close modal when clicking outside
-		modal.addEventListener('click', function (e) {
-			if (e.target === modal) {
-				closeModal();
-			}
-		});
+	document.addEventListener('DOMContentLoaded', function () {
+		const modal = document.getElementById('test-modal');
+		if (modal) {
+			// Close modal when clicking outside
+			modal.addEventListener('click', function (e) {
+				if (e.target === modal) {
+					closeModal();
+				}
+			});
 
-		// Close modal on escape key
-		document.addEventListener('keydown', function (e) {
-			if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-				closeModal();
-			}
-		});
-	}
+			// Close modal on escape key
+			document.addEventListener('keydown', function (e) {
+				if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+					closeModal();
+				}
+			});
+		}
+	});
 
 	// Setup periodic refresh for test results
 	setInterval(function () {
