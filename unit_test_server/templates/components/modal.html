@@ -1,75 +1,92 @@
-<!-- templates/components/modal.html -->
-<div id="test-modal"
-  class="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 hidden">
-  <div
-    class="fixed left-[50%] top-[50%] z-50 grid w-full max-w-5xl translate-x-[-50%] translate-y-[-50%] gap-4 border bg-white p-6 shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] sm:rounded-lg">
+<div id="test-modal" class="hidden">
+  <!-- Backdrop -->
+  <div class="modal-backdrop modal-overlay" onclick="closeModal()"></div>
 
-    <!-- Header -->
-    <div class="flex flex-col space-y-1.5 text-center sm:text-left">
-      <div class="flex items-center justify-between">
-        <h2 class="text-lg font-semibold leading-none tracking-tight" id="modal-title">Test Details</h2>
-        <button type="button" onclick="closeModal()"
-          class="rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 disabled:pointer-events-none">
-          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-          <span class="sr-only">Close</span>
-        </button>
-      </div>
-      <p class="text-sm text-gray-600">
-        Detailed test execution results and performance metrics
-      </p>
-    </div>
+  <!-- Modal Container -->
+  <div class="modal-container">
+    <div
+      class="modal-content w-full sm:max-w-lg lg:max-w-4xl max-h-[calc(100vh-2rem)] flex flex-col overflow-hidden relative">
+      <!-- Close Button -->
+      <button class="close-button" onclick="closeModal()">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
 
-    <!-- Tabs Navigation -->
-    <div class="border-b border-gray-200">
-      <nav class="-mb-px flex space-x-8">
-        <button onclick="switchTab('overview')"
-          class="tab-button active py-2 px-1 border-b-2 border-blue-500 text-sm font-medium text-blue-600 hover:text-blue-700">
-          Overview
-        </button>
-        <button onclick="switchTab('memory')"
-          class="tab-button py-2 px-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
-          Memory
-        </button>
-        <button onclick="switchTab('output')"
-          class="tab-button py-2 px-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
-          Output
-        </button>
-        <button onclick="switchTab('details')"
-          class="tab-button py-2 px-1 border-b-2 border-transparent text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
-          Details
-        </button>
-      </nav>
-    </div>
-
-    <!-- Tab Content -->
-    <div class="max-h-[60vh] overflow-y-auto">
-      <!-- Overview Tab -->
-      <div id="overview-tab" class="tab-content active space-y-4">
-        <div id="overview-content">
-          <!-- Will be populated by JavaScript -->
+      <!-- Header -->
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center justify-between">
+          <div>
+            <h2 class="text-2xl font-bold text-gray-900 mb-2" id="modal-title">Test Details</h2>
+            <p class="text-gray-600">Comprehensive test execution results and performance analytics</p>
+          </div>
+          <div id="modal-status-badge">
+            <!-- Status badge will be populated by JavaScript -->
+          </div>
         </div>
       </div>
 
-      <!-- Memory Tab -->
-      <div id="memory-tab" class="tab-content space-y-4">
-        <div id="memory-content">
-          <!-- Will be populated by JavaScript -->
-        </div>
+      <!-- Tabs Navigation -->
+      <div class="px-6 border-b border-gray-200 shrink-0 overflow-x-auto whitespace-nowrap">
+        <nav class="flex space-x-1 py-4">
+          <button onclick="switchTab('overview')" class="tab-button active flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+            Overview
+          </button>
+          <button onclick="switchTab('memory')" class="tab-button flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Memory
+          </button>
+          <button onclick="switchTab('output')" class="tab-button flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Output
+          </button>
+          <button onclick="switchTab('details')" class="tab-button flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4" />
+            </svg>
+            Details
+          </button>
+        </nav>
       </div>
 
-      <!-- Output Tab -->
-      <div id="output-tab" class="tab-content space-y-4">
-        <div id="output-content">
-          <!-- Will be populated by JavaScript -->
+      <!-- Tab Content -->
+      <div class="p-6 flex-1 overflow-y-auto">
+        <!-- Overview Tab -->
+        <div id="overview-tab" class="tab-content active">
+          <div id="overview-content">
+            <!-- Content will be populated by JavaScript -->
+          </div>
         </div>
-      </div>
 
-      <!-- Details Tab -->
-      <div id="details-tab" class="tab-content space-y-4">
-        <div id="details-content">
-          <!-- Will be populated by JavaScript -->
+        <!-- Memory Tab -->
+        <div id="memory-tab" class="tab-content">
+          <div id="memory-content">
+            <!-- Content will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Output Tab -->
+        <div id="output-tab" class="tab-content">
+          <div id="output-content">
+            <!-- Content will be populated by JavaScript -->
+          </div>
+        </div>
+
+        <!-- Details Tab -->
+        <div id="details-tab" class="tab-content">
+          <div id="details-content">
+            <!-- Content will be populated by JavaScript -->
+          </div>
         </div>
       </div>
     </div>

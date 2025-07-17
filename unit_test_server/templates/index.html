@@ -84,43 +84,44 @@
   {% include 'components/header.html' %}
 
   <!-- Main Content -->
-<main class="flex-1 space-y-6 p-4 sm:p-6 overflow-x-hidden">
-  <!-- Statistics Cards -->
-  {% include 'components/stats.html' %}
+  <main class="flex-1 space-y-6 p-4 sm:p-6 overflow-x-hidden">
+    <!-- Statistics Cards -->
+    {% include 'components/stats.html' %}
 
-  <!-- Two Column Layout - Stack on mobile -->
-  <div class="grid gap-6 lg:grid-cols-2">
-    <!-- Available Tests -->
-    <div class="space-y-4 min-w-0">
-      <div class="flex items-center justify-between">
-        <h2 class="text-xl font-semibold leading-none tracking-tight">Available Tests</h2>
-        <span class="text-sm text-muted-foreground hidden sm:block">
-          Click individual tests or use group/file runners
-        </span>
+    <!-- Two Column Layout - Stack on mobile -->
+    <div class="grid gap-6 lg:grid-cols-2">
+      <!-- Available Tests -->
+      <div class="space-y-4 min-w-0">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xl font-semibold leading-none tracking-tight">Available Tests</h2>
+          <span class="text-sm text-muted-foreground hidden sm:block">
+            Click individual tests or use group/file runners
+          </span>
+        </div>
+        <div id="tests-container" class="space-y-4">
+          <!-- Test cards will be populated here -->
+        </div>
       </div>
-      <div id="tests-container" class="space-y-4">
-        <!-- Test cards will be populated here -->
+
+      <!-- Test Results -->
+      <div class="space-y-4 min-w-0">
+        {% include 'components/test_results.html' %}
       </div>
     </div>
-
-    <!-- Test Results -->
-    <div class="space-y-4 min-w-0">
-      {% include 'components/test_results.html' %}
-    </div>
-  </div>
-</main>
+  </main>
 
   <!-- Modal -->
   {% include 'components/modal.html' %}
 
   <!-- JavaScript -->
   <script src="{{ url_for('static', filename='js/toast.js') }}" defer></script>
-  <script src="{{ url_for('static', filename='js/modal.js') }}" defer></script>
   <script src="{{ url_for('static', filename='js/filter.js') }}" defer></script>
   <script src="{{ url_for('static', filename='js/api.js') }}" defer></script>
   <script src="{{ url_for('static', filename='js/socket.js') }}" defer></script>
   <script src="{{ url_for('static', filename='js/ui.js') }}" defer></script>
+  <script src="{{ url_for('static', filename='js/modal.js') }}" defer></script>
   <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+
 
   <!-- Toast Container -->
   <div id="toast-container"></div>

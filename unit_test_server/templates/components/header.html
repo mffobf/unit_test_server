@@ -126,10 +126,46 @@
   </div>
 </header>
 
+<nav id="mobile-menu"
+  class="fixed inset-y-0 right-0 z-50 w-64 max-w-[80vw] bg-background border-l border-border shadow-lg transform translate-x-full transition-transform duration-200 ease-out hidden">
+  <div class="p-4 space-y-4 h-full flex flex-col">
+    <h2 class="text-sm font-semibold mb-2">Actions</h2>
+
+    <!-- Update test list -->
+    <button onclick="updateTests()" class="w-full flex items-center justify-between rounded-md border
+                   px-3 py-2 text-sm hover:bg-accent">
+      Update tests
+      <svg class="h-4 w-4" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581
+                 m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+      </svg>
+    </button>
+
+    <!-- Clear cache -->
+    <button onclick="clearCache()" class="w-full flex items-center justify-between rounded-md border
+                   px-3 py-2 text-sm hover:bg-accent">
+      Clear cache
+      <svg class="h-4 w-4" fill="none" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7
+                 m5 4v6m4-6v6" />
+      </svg>
+    </button>
+
+    <div class="mt-auto text-xs text-muted-foreground">
+      v1.0 • Flask Test Runner
+    </div>
+  </div>
+</nav>
+
 <script>
   function toggleMobileMenu() {
     const menu = document.getElementById('mobile-menu');
+    if (!menu) return;
+    const willOpen = menu.classList.contains('hidden');  // about to open?
+
     menu.classList.toggle('hidden');
+    if (willOpen) menu.classList.remove('translate-x-full');
+    else menu.classList.add('translate-x-full');
   }
 
   function toggleMobileSearch() {
@@ -167,10 +203,35 @@
   // Close mobile menu when clicking outside
   document.addEventListener('click', function (event) {
     const menu = document.getElementById('mobile-menu');
-    const button = event.target.closest('button[onclick="toggleMobileMenu()"]');
+    if (!menu) return;
 
-    if (!button && !menu.contains(event.target)) {
+    // Ignore clicks on the toggle button itself
+    const toggleBtn = event.target.closest('button[onclick="toggleMobileMenu()"]');
+    if (toggleBtn) return;
+
+    // If the click was outside the drawer, close it
+    if (!menu.classList.contains('hidden') && !menu.contains(event.target)) {
       menu.classList.add('hidden');
+      menu.classList.add('translate-x-full');
     }
   });
+
+  let touchStartX = null;
+  document.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  });
+  document.addEventListener('touchend', (e) => {
+    if (touchStartX === null) return;
+    const deltaX = e.changedTouches[0].clientX - touchStartX;
+    // swipe from right edge to open
+    if (deltaX < -60 && Math.abs(deltaX) > 40 && e.changedTouches[0].clientX > (window.innerWidth - 80)) {
+      toggleMobileMenu();
+    }
+    // swipe left to close
+    if (deltaX > 60 && !document.getElementById('mobile-menu').classList.contains('hidden')) {
+      toggleMobileMenu();
+    }
+    touchStartX = null;
+  });
+
 </script>
