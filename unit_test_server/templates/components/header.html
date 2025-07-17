@@ -3,36 +3,54 @@
   class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
   <div class="container flex h-14 items-center px-4 sm:px-6 min-w-0">
     <!-- Mobile search overlay -->
-    <div id="mobile-search-overlay" class="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 hidden md:hidden">
+    <div id="mobile-search-overlay"
+      class="fixed inset-0 bg-background/95 backdrop-blur-md z-50 hidden md:hidden mobile-search-overlay">
       <div class="flex flex-col h-full">
-        <div class="flex items-center h-14 px-4 border-b">
-          <div class="relative flex-1 mr-4">
-            <svg class="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
-              xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <input id="mobile-search-input" type="search" placeholder="Search tests..."
-              class="flex h-9 w-full rounded-md border border-input bg-background pl-10 pr-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50" />
+        <!-- Enhanced search header -->
+        <div class="mobile-search-header">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-foreground">Search Tests</h3>
+            <button onclick="closeMobileSearch()" class="close-button">
+              <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
-          <button onclick="closeMobileSearch()"
-            class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 flex-shrink-0">
-            <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
-              viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-            <span class="sr-only">Close search</span>
-          </button>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <input id="mobile-search-input" type="search" placeholder="Type to search tests..."
+              class="mobile-search-input w-full" autocomplete="off" autocapitalize="off" spellcheck="false" />
+          </div>
         </div>
-        <div class="flex-1 p-4">
-          <div id="mobile-search-results" class="text-sm text-muted-foreground">
-            Start typing to search tests...
+
+        <!-- Search results area -->
+        <div class="flex-1 overflow-y-auto">
+          <div class="p-4">
+            <div id="mobile-search-results" class="space-y-3">
+              <div class="flex items-center justify-center py-8 text-muted-foreground">
+                <div class="text-center">
+                  <svg class="h-12 w-12 mx-auto mb-3 text-muted-foreground/40" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  <p class="text-sm">Start typing to search through your tests</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Left: Icon + Title (make sure it doesn't overflow) -->
+    <!-- Left: Icon + Title -->
     <div class="flex items-center space-x-2 sm:space-x-4 mr-4 sm:mr-6 min-w-0 flex-shrink-0">
       <div
         class="flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground flex-shrink-0">
@@ -63,13 +81,13 @@
 
       <!-- Action buttons -->
       <div class="flex items-center space-x-2 sm:space-x-3 flex-shrink-0">
-        <!-- Mobile search button -->
+        <!-- Enhanced mobile search button -->
         <button
           class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 md:hidden flex-shrink-0"
           onclick="toggleMobileSearch()">
           <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-              d="M8 16l2.879-2.879m0 0a3 3 0 104.243-4.242 3 3 0 00-4.243 4.242zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
           <span class="sr-only">Search</span>
         </button>
@@ -93,8 +111,7 @@
             class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 flex-shrink-0">
             <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
               viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
             <span class="sr-only">More options</span>
           </button>
@@ -126,112 +143,123 @@
   </div>
 </header>
 
+<!-- Enhanced Mobile Menu -->
 <nav id="mobile-menu"
-  class="fixed inset-y-0 right-0 z-50 w-64 max-w-[80vw] bg-background border-l border-border shadow-lg transform translate-x-full transition-transform duration-200 ease-out hidden">
-  <div class="p-4 space-y-4 h-full flex flex-col">
-    <h2 class="text-sm font-semibold mb-2">Actions</h2>
+  class="fixed inset-y-0 right-0 z-50 w-80 max-w-[85vw] bg-background border-l border-border shadow-xl transform translate-x-full transition-transform duration-300 ease-out hidden">
+  <div class="h-full flex flex-col">
+    <!-- Menu Header -->
+    <div class="p-6 border-b border-border bg-muted/30">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" stroke="currentColor"
+              viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <h2 class="text-lg font-semibold">Menu</h2>
+            <p class="text-xs text-muted-foreground">Test Runner Actions</p>
+          </div>
+        </div>
+        <button onclick="toggleMobileMenu()" class="close-button">
+          <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+    </div>
 
-    <!-- Update test list -->
-    <button onclick="updateTests()" class="w-full flex items-center justify-between rounded-md border
-                   px-3 py-2 text-sm hover:bg-accent">
-      Update tests
-      <svg class="h-4 w-4" fill="none" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581
-                 m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-      </svg>
-    </button>
+    <!-- Menu Content -->
+    <div class="flex-1 overflow-y-auto">
+      <div class="p-6 space-y-6">
+        <!-- Quick Actions Section -->
+        <div>
+          <h3 class="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wide">Quick Actions</h3>
+          <div class="space-y-2">
+            <button onclick="runAllTests(); toggleMobileMenu();"
+              class="w-full flex items-center justify-between rounded-lg border border-input bg-background hover:bg-accent hover:text-accent-foreground px-4 py-3 text-sm transition-colors">
+              <div class="flex items-center space-x-3">
+                <div class="flex h-8 w-8 items-center justify-center rounded-md bg-primary/10 text-primary">
+                  <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div class="text-left">
+                  <div class="font-medium">Run All Tests</div>
+                  <div class="text-xs text-muted-foreground">Execute complete test suite</div>
+                </div>
+              </div>
+              <svg class="h-4 w-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
 
-    <!-- Clear cache -->
-    <button onclick="clearCache()" class="w-full flex items-center justify-between rounded-md border
-                   px-3 py-2 text-sm hover:bg-accent">
-      Clear cache
-      <svg class="h-4 w-4" fill="none" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7
-                 m5 4v6m4-6v6" />
-      </svg>
-    </button>
+        <!-- Management Section -->
+        <div>
+          <h3 class="text-sm font-medium text-muted-foreground mb-3 uppercase tracking-wide">Management</h3>
+          <div class="space-y-2">
+            <button onclick="updateTests(); toggleMobileMenu();"
+              class="w-full flex items-center justify-between rounded-lg border border-input bg-background hover:bg-accent hover:text-accent-foreground px-4 py-3 text-sm transition-colors">
+              <div class="flex items-center space-x-3">
+                <div
+                  class="flex h-8 w-8 items-center justify-center rounded-md bg-secondary/50 text-secondary-foreground">
+                  <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                </div>
+                <div class="text-left">
+                  <div class="font-medium">Update Tests</div>
+                  <div class="text-xs text-muted-foreground">Refresh test discovery</div>
+                </div>
+              </div>
+              <svg class="h-4 w-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
 
-    <div class="mt-auto text-xs text-muted-foreground">
-      v1.0 • Flask Test Runner
+            <button onclick="clearCache(); toggleMobileMenu();"
+              class="w-full flex items-center justify-between rounded-lg border border-input bg-background hover:bg-accent hover:text-accent-foreground px-4 py-3 text-sm transition-colors">
+              <div class="flex items-center space-x-3">
+                <div class="flex h-8 w-8 items-center justify-center rounded-md bg-destructive/10 text-destructive">
+                  <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </div>
+                <div class="text-left">
+                  <div class="font-medium">Clear Cache</div>
+                  <div class="text-xs text-muted-foreground">Reset stored results</div>
+                </div>
+              </div>
+              <svg class="h-4 w-4 text-muted-foreground" xmlns="http://www.w3.org/2000/svg" fill="none"
+                stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu Footer -->
+    <div class="p-6 border-t border-border bg-muted/30">
+      <div class="flex items-center justify-between text-xs text-muted-foreground">
+        <span>Flask Test Runner</span>
+        <span>v1.0</span>
+      </div>
     </div>
   </div>
 </nav>
-
-<script>
-  function toggleMobileMenu() {
-    const menu = document.getElementById('mobile-menu');
-    if (!menu) return;
-    const willOpen = menu.classList.contains('hidden');  // about to open?
-
-    menu.classList.toggle('hidden');
-    if (willOpen) menu.classList.remove('translate-x-full');
-    else menu.classList.add('translate-x-full');
-  }
-
-  function toggleMobileSearch() {
-    const overlay = document.getElementById('mobile-search-overlay');
-    const input = document.getElementById('mobile-search-input');
-
-    overlay.classList.remove('hidden');
-    // Focus the input after a short delay to ensure it's visible
-    setTimeout(() => {
-      input.focus();
-    }, 100);
-  }
-
-  function closeMobileSearch() {
-    const overlay = document.getElementById('mobile-search-overlay');
-    overlay.classList.add('hidden');
-  }
-
-  // Close mobile search when clicking outside or pressing escape
-  document.addEventListener('click', function (event) {
-    const overlay = document.getElementById('mobile-search-overlay');
-    const searchContent = overlay?.querySelector('.flex.flex-col.h-full');
-
-    if (overlay && !overlay.classList.contains('hidden') && !searchContent?.contains(event.target)) {
-      closeMobileSearch();
-    }
-  });
-
-  document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') {
-      closeMobileSearch();
-    }
-  });
-
-  // Close mobile menu when clicking outside
-  document.addEventListener('click', function (event) {
-    const menu = document.getElementById('mobile-menu');
-    if (!menu) return;
-
-    // Ignore clicks on the toggle button itself
-    const toggleBtn = event.target.closest('button[onclick="toggleMobileMenu()"]');
-    if (toggleBtn) return;
-
-    // If the click was outside the drawer, close it
-    if (!menu.classList.contains('hidden') && !menu.contains(event.target)) {
-      menu.classList.add('hidden');
-      menu.classList.add('translate-x-full');
-    }
-  });
-
-  let touchStartX = null;
-  document.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-  });
-  document.addEventListener('touchend', (e) => {
-    if (touchStartX === null) return;
-    const deltaX = e.changedTouches[0].clientX - touchStartX;
-    // swipe from right edge to open
-    if (deltaX < -60 && Math.abs(deltaX) > 40 && e.changedTouches[0].clientX > (window.innerWidth - 80)) {
-      toggleMobileMenu();
-    }
-    // swipe left to close
-    if (deltaX > 60 && !document.getElementById('mobile-menu').classList.contains('hidden')) {
-      toggleMobileMenu();
-    }
-    touchStartX = null;
-  });
-
-</script>

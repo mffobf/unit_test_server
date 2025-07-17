@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
   loadTestResults();
 
   // Setup periodic refresh for test results
-  setInterval(function () {
-    loadTestResults();
-  }, 5000); // Refresh every 5 seconds
+  // setInterval(function () {
+  //   loadTestResults();
+  // }, 5000); // Refresh every 5 seconds
 
   console.log('Application setup complete');
 });

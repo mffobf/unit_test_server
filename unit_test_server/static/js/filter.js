@@ -3,13 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('test-search');
   const mobileInput = document.getElementById('mobile-search-input');
   const cardsRoot = document.getElementById('tests-container');
+  const mobileRoot = document.getElementById('results-mobile');
   const tableBody = document.getElementById('results-table');
   if (!input || !cardsRoot || !tableBody) return;
 
   // 1) One function that grabs the *current* rows & cards, and hides/shows them
   function applyFilter() {
     const term = input.value.trim().toLowerCase();
-    const cards = cardsRoot.querySelectorAll('.test-card');
+    const cards = [
+      ...cardsRoot.querySelectorAll('.test-card'),
+      ...(mobileRoot ? mobileRoot.querySelectorAll('.test-card') : [])
+    ];
     const rows = tableBody.querySelectorAll('tr');
 
     cards.forEach(c => {

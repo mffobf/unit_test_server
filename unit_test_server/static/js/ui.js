@@ -301,7 +301,7 @@ function updateResultsTable() {
 
     // Mobile card
     const card = document.createElement('div');
-    card.className = 'rounded-lg border bg-card p-4 space-y-3 transition-colors hover:bg-muted/50';
+    card.className = 'test-card rounded-lg border bg-card p-4 space-y-3 transition-colors hover:bg-muted/50';
 
     if (result.status === 'running') {
       card.classList.add('status-running');
